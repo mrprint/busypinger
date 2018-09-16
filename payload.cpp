@@ -30,7 +30,6 @@ bool isbusy()
     WTSEnumerateSessionsC senumer;
     for (size_t i=0; i < senumer.count; ++i)
     {
-        /*cout << pinfo[i].SessionId << " " << pinfo[i].pWinStationName << " " << pinfo[i].State << endl;*/
         if (string::npos != string(senumer.pinfo[i].pWinStationName).find("RDP-Tcp#")
                 && WTSActive == senumer.pinfo[i].State) {
             return true;

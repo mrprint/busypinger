@@ -13,8 +13,15 @@ set(Boost_USE_STATIC_RUNTIME OFF)
 find_package(Boost 1.52.0 COMPONENTS system program_options REQUIRED)
 include_directories("include" ${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIR})
-add_executable(${PROJECT_NAME} "main.cpp" "payload.cpp" "payload.hpp")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+add_executable(${PROJECT_NAME} 
+    "service_base.cpp"
+    "service_base.hpp"
+    "main.cpp"
+    "service.hpp"
+    "payload.cpp"
+    "payload.hpp"
+)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -municode -std=c++14")
 #set_property(TARGET ${PROJECT_NAME} APPEND PROPERTY COMPILE_OPTIONS "-pthread")
 #set_property(TARGET ${PROJECT_NAME} APPEND PROPERTY INTERFACE_COMPILE_OPTIONS "-pthread")
 target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES} wsock32 ws2_32 wtsapi32)
