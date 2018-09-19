@@ -76,5 +76,6 @@ int wmain(int argc, wchar_t* argv[])
 {
     Service service;
     service.handle_args(argc, argv, Service::IN_ENTRY);
-    service.Run();
+    service.run();
+    return 0;
 }

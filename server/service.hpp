@@ -9,6 +9,7 @@
 class Service: public ServiceBase, public crow::SimpleApp
 {
 public:
+    using ServiceBase::run;
     using ProcPlace = enum {
         IN_ENTRY,
         IN_SERVICE
