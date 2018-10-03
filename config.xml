@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<body>
+    <!-- The presence of the identifier is mandatory -->
+    <set id="set_one" >
+        <item>
+            <address>localhost:18080</address>
+            <title>item11</title>
+        </item>
+        <item>
+            <address>localhost:18080</address>
+            <title>item12</title>
+        </item>
+    </set>
+    <set id="set_two">
+        <item>
+            <address>localhost:18080</address>
+            <title>item21</title>
+        </item>
+        <item>
+            <address>localhost:18080</address>
+            <title>item22</title>
+        </item>
+    </set>
+</body>

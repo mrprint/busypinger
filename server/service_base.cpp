@@ -1,5 +1,5 @@
-#include "service_base.hpp"
 #include <cassert>
+#include "service_base.hpp"
 
 ServiceBase* ServiceBase::m_service = nullptr;
 
