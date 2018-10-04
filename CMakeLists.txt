@@ -18,7 +18,7 @@ set(SERVER_EXEC_NAME "bchkservice")
 
 find_package(Boost 1.52.0 COMPONENTS system program_options REQUIRED)
 find_package(Qt5 COMPONENTS Core Quick REQUIRED)
-include_directories("include" ${Boost_INCLUDE_DIR})
+include_directories("submodules/crow/include" ${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIR})
 
 add_executable(${SERVER_EXEC_NAME}
