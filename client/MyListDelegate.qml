@@ -40,7 +40,7 @@ ListView {
 
             TextMetrics {
                 id: txtMeter
-                font.family: "Monospaced"
+                font.family: "Courier"
                 font.pixelSize: 14
                 text: title
             }
@@ -60,7 +60,10 @@ ListView {
                 source: "qrc:/emblem-unreadable.png"
 
                 Timer {
-                    interval: 3000; running: true; repeat: true
+                    interval: 3000
+                    running: true
+                    repeat: true
+                    triggeredOnStart : true
                     onTriggered: {
                         var http = new XMLHttpRequest()
                         var url = "http://" + address +"/";

@@ -12,7 +12,7 @@ ApplicationWindow {
     id: window
     color: "lightgray"
     visible: false
-    width: 640
+    width: 480
     height: 480
     title: qsTr(appTitle)
 
