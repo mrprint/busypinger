@@ -40,9 +40,6 @@ if(THREADS_HAVE_PTHREAD_ARG)
     set_property(TARGET ${SERVER_EXEC_NAME} APPEND PROPERTY COMPILE_OPTIONS "-pthread")
     set_property(TARGET ${SERVER_EXEC_NAME} APPEND PROPERTY INTERFACE_COMPILE_OPTIONS "-pthread")
 endif()
-if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-    set_property(TARGET ${CLIENT_EXEC_NAME} PROPERTY WIN32_EXECUTABLE TRUE)
-endif()
 set_target_properties(${SERVER_EXEC_NAME} PROPERTIES LINK_FLAGS "-municode")
 target_link_libraries(${SERVER_EXEC_NAME} ${Boost_LIBRARIES} wsock32 ws2_32 wtsapi32)
 
@@ -51,6 +48,9 @@ set_target_properties(${CLIENT_EXEC_NAME} PROPERTIES
     AUTORCC ON
     INCLUDE_CURRENT_DIR ON
 )
+if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+    set_property(TARGET ${CLIENT_EXEC_NAME} PROPERTY WIN32_EXECUTABLE TRUE)
+endif()
 target_compile_definitions(${CLIENT_EXEC_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 target_link_libraries(${CLIENT_EXEC_NAME} PRIVATE Qt5::Core Qt5::Quick)
 
