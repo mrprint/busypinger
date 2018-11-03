@@ -18,7 +18,11 @@ set(SERVER_EXEC_NAME "bpingservice")
 
 find_package(Boost 1.52.0 COMPONENTS system program_options REQUIRED)
 find_package(Qt5 COMPONENTS Core Quick REQUIRED)
-include_directories("submodules/crow/include" ${Boost_INCLUDE_DIR})
+include_directories(
+    "submodules/crow/include"
+    "submodules/WinReg/WinReg"
+    ${Boost_INCLUDE_DIR}
+)
 link_directories(${Boost_LIBRARY_DIR})
 
 add_executable(${SERVER_EXEC_NAME}
@@ -40,8 +44,8 @@ if(THREADS_HAVE_PTHREAD_ARG)
     set_property(TARGET ${SERVER_EXEC_NAME} APPEND PROPERTY COMPILE_OPTIONS "-pthread")
     set_property(TARGET ${SERVER_EXEC_NAME} APPEND PROPERTY INTERFACE_COMPILE_OPTIONS "-pthread")
 endif()
-set_target_properties(${SERVER_EXEC_NAME} PROPERTIES LINK_FLAGS "-municode")
-target_link_libraries(${SERVER_EXEC_NAME} ${Boost_LIBRARIES} wsock32 ws2_32 wtsapi32)
+set_target_properties(${SERVER_EXEC_NAME} PROPERTIES LINK_FLAGS "-municode" COMPILE_FLAGS "-DUNICODE")
+target_link_libraries(${SERVER_EXEC_NAME} ${Boost_LIBRARIES} wsock32 ws2_32 iphlpapi wtsapi32)
 
 set_target_properties(${CLIENT_EXEC_NAME} PROPERTIES
     AUTOMOC ON

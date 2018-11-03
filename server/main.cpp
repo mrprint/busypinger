@@ -23,20 +23,41 @@ Service::Service()
 
 void Service::onStart(DWORD argc, WCHAR* argv[])
 {
+    using namespace std;
+    using namespace crow;
+
     handle_args(static_cast<int>(argc), argv, IN_SERVICE);
 
-    th_worker = std::thread([this]{
-        crow::SimpleApp app;
+    th_worker = thread([this]{
+        SimpleApp app;
 
         CROW_ROUTE(app, "/")([](){
             try{
                 return isbusy() ? "1" : "0";
             }
-            catch(std::system_error& ex)
+            catch(system_error& ex)
             {
                 return ex.what();
             }
         });
+
+        CROW_ROUTE(app, "/detailed")([](){
+            json::wvalue resp;
+            try{
+                resp = users_get();
+            }
+            catch(system_error& ex)
+            {
+                return string(ex.what());
+            }
+            catch(...)
+            {
+                cerr << "Exception during \"users_get\" execution" << endl;
+                return string("");
+            }
+            return json::dump(resp);
+        });
+
         app.bindaddr(addr).port(port).multithreaded().run();
     });
 }
