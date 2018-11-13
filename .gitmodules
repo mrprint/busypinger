@@ -1,6 +1,6 @@
-[submodule "submodules/crow"]
-	path = submodules/crow
-	url = https://github.com/ipkn/crow.git
 [submodule "submodules/WinReg"]
 	path = submodules/WinReg
 	url = https://github.com/GiovanniDicanio/WinReg.git
+[submodule "submodules/crow"]
+	path = submodules/crow
+	url = https://github.com/mrprint/crow.git
