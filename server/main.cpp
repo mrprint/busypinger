@@ -33,18 +33,30 @@ void Service::onStart(DWORD argc, WCHAR* argv[])
 
         CROW_ROUTE(app, "/")([](){
             try{
-                return isbusy() ? "1" : "0";
+                return string(isbusy() ? "1" : "0");
             }
             catch(system_error& ex)
             {
-                return ex.what();
+                return string(ex.what());
             }
+            catch(...)
+            {
+                cerr << "Exception during \"isbusy\" execution" << endl;
+            }
+            return string("");
         });
 
         CROW_ROUTE(app, "/detailed")([](){
             json::wvalue resp;
             try{
-                resp = users_get();
+                vector<json::wvalue> wresp;
+                for (auto& i: users_get())
+                {
+                    json::wvalue val;
+                    val["ip"] = i;
+                    wresp.emplace_back(std::move(val));
+                }
+                resp = std::move(wresp);
             }
             catch(system_error& ex)
             {

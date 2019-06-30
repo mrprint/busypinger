@@ -6,5 +6,10 @@
         <file>emblem-important-4.png</file>
         <file>emblem-unreadable.png</file>
         <file>utilities-system-monitor-4.ico</file>
+        <file>main.cpp</file>
+        <file>QmlEnvVar.cpp</file>
+        <file>QmlEnvVar.h</file>
+        <file>JSONListModel.qml</file>
+        <file>jsonpath.js</file>
     </qresource>
 </RCC>

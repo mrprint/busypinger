@@ -1,4 +1,5 @@
 import QtQuick 2.7
+import QtQuick.Controls 2.1
 import QtQuick.XmlListModel 2.0
 import QtQuick.Layouts 1.11
 import EnvVarModule 1.0
@@ -29,68 +30,104 @@ ListView {
         radius: 12
         color: "white"
 
-        RowLayout {
-            id: rowsLayout
+        MouseArea{
             anchors.fill: parent
+            //hoverEnabled: true
 
-            Rectangle {
-                width: 1
-                color: "white"
-            }
+            onPressed: popup.open()
 
-            TextMetrics {
-                id: txtMeter
-                font.family: "Courier"
-                font.pixelSize: 14
-                text: title
-            }
+            RowLayout {
+                id: rowsLayout
+                anchors.fill: parent
 
-            Text {
-                font: txtMeter.font
-                text: txtMeter.text
-            }
+                Rectangle {
+                    width: 1
+                    color: "white"
+                }
 
-            property string state: "n/a"
+                TextMetrics {
+                    id: txtMeter
+                    font.family: "Courier"
+                    font.pixelSize: 14
+                    text: title
+                }
 
-            Image {
-                id: stateIcon
-                mipmap: true
-                sourceSize.height: txtMeter.height * 1.1
-                fillMode: Image.PreserveAspectFit
-                source: "qrc:/emblem-unreadable.png"
+                Text {
+                    font: txtMeter.font
+                    text: txtMeter.text
+                }
 
-                Timer {
-                    interval: 3000
-                    running: true
-                    repeat: true
-                    triggeredOnStart : true
-                    onTriggered: {
-                        var http = new XMLHttpRequest()
-                        var url = "http://" + address +"/";
-                        http.open("GET", url, true)
+                property string state: "n/a"
 
-                        http.onreadystatechange = function() {
-                            if (http.readyState == 4) {
-                                if (http.status == 200) {
-                                    switch (http.responseText) {
-                                    case "1": stateIcon.source = "qrc:/emblem-important-4.png"
-                                        break
-                                    case "0": stateIcon.source = "qrc:/emblem-default.png"
-                                        break
+                Image {
+                    id: stateIcon
+                    mipmap: true
+                    sourceSize.height: txtMeter.height * 1.1
+                    fillMode: Image.PreserveAspectFit
+                    source: "qrc:/emblem-unreadable.png"
+
+                    Timer {
+                        interval: 3000
+                        running: true
+                        repeat: true
+                        triggeredOnStart : true
+                        onTriggered: {
+                            var http = new XMLHttpRequest()
+                            var url = "http://" + address +"/";
+                            http.open("GET", url, true)
+
+                            http.onreadystatechange = function() {
+                                if (http.readyState == 4) {
+                                    if (http.status == 200) {
+                                        switch (http.responseText) {
+                                        case "1": stateIcon.source = "qrc:/emblem-important-4.png"
+                                            break
+                                        case "0": stateIcon.source = "qrc:/emblem-default.png"
+                                            break
+                                        }
+                                    } else {
+                                        stateIcon.source = "qrc:/emblem-unreadable.png"
                                     }
-                                } else {
-                                    stateIcon.source = "qrc:/emblem-unreadable.png"
                                 }
                             }
+                            http.send();
                         }
-                        http.send();
                     }
+                }
+
+                Rectangle {
+                    width: 1
+                    color: "white"
                 }
             }
 
-            Rectangle {
-                width: 1
-                color: "white"
+            JSONListModel {
+                id: jsonList
+                json: '[ \
+                        {"ip": "42"}, \
+                        {"ip": "51"} \
+                    ]'
+                query: "$[*]"
+            }
+
+            Popup {
+                id: popup
+
+
+                ListView {
+                    width: 50
+                    height: 100
+                    orientation: ListView.Vertical
+                    model: jsonList.model
+
+                    delegate: Rectangle {
+                        width: 50
+                        height: 20
+                        Text {
+                            text: model.ip
+                        }
+                    }
+                }
             }
         }
     }
