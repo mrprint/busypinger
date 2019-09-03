@@ -99,7 +99,7 @@ VectorStr ip_get()
     } catch(winreg::RegException) {
         port = htons(3389);
     }
-    auto& p_table = tcp_table.p_table;
+    auto p_table = tcp_table.p_table;
     for (DWORD i=0; i < p_table->dwNumEntries; ++i)
     {
         if (p_table->table[i].dwState == MIB_TCP_STATE_ESTAB
