@@ -1,4 +1,9 @@
+#define WINVER _WIN32_WINNT_VISTA
+#define _WIN32_WINNT _WIN32_WINNT_VISTA
+
+#define CROW_MAIN
 #include <crow.h>
+
 #include "service.hpp"
 #include "payload.hpp"
 
@@ -33,41 +38,41 @@ void Service::onStart(DWORD argc, WCHAR* argv[])
 
         CROW_ROUTE(app, "/")([](){
             try{
-                return string(isbusy() ? "1" : "0");
+                return crow::response(isbusy() ? "1" : "0");
             }
             catch(system_error& ex)
             {
-                return string(ex.what());
+                return crow::response(ex.what());
             }
             catch(...)
             {
                 cerr << "Exception during \"isbusy\" execution" << endl;
             }
-            return string("");
+            return crow::response("");
         });
 
         CROW_ROUTE(app, "/detailed")([](){
             json::wvalue resp;
             try{
-                vector<json::wvalue> wresp;
+                vector<json::wvalue> vresp;
                 for (auto& i: users_get())
                 {
                     json::wvalue val;
                     val["ip"] = i;
-                    wresp.emplace_back(std::move(val));
+                    vresp.emplace_back(std::move(val));
                 }
-                resp = std::move(wresp);
+                resp = std::move(vresp);
             }
             catch(system_error& ex)
             {
-                return string(ex.what());
+                return crow::response(ex.what());
             }
             catch(...)
             {
                 cerr << "Exception during \"users_get\" execution" << endl;
-                return string("");
+                return crow::response("");
             }
-            return json::dump(resp);
+            return crow::response(resp);
         });
 
         app.bindaddr(addr).port(port).multithreaded().run();

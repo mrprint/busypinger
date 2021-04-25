@@ -103,18 +103,18 @@ ListView {
 
             JSONListModel {
                 id: jsonList
-                json: '[ \
-                        {"ip": "42"}, \
-                        {"ip": "51"} \
-                    ]'
                 query: "$[*]"
             }
 
             Popup {
                 id: popup
+                padding: 10
 
+
+                background: Item {}
 
                 ListView {
+                    id: popupView
                     width: 50
                     height: 100
                     orientation: ListView.Vertical
@@ -127,6 +127,21 @@ ListView {
                             text: model.ip
                         }
                     }
+                }
+
+                onOpened: {
+                    var http = new XMLHttpRequest()
+                    var url = "http://" + address +"/detailed";
+                    http.open("GET", url, true)
+
+                    http.onreadystatechange = function() {
+                        if (http.readyState == 4) {
+                            if (http.status == 200) {
+                                jsonList.json = http.responseText
+                            }
+                        }
+                    }
+                    http.send();
                 }
             }
         }

@@ -16,7 +16,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CLIENT_EXEC_NAME "bpingclient")
 set(SERVER_EXEC_NAME "bpingservice")
 
-find_package(Boost 1.52.0 COMPONENTS system program_options REQUIRED)
+find_package(Boost 1.70.0 COMPONENTS system program_options REQUIRED)
 find_package(Qt5 COMPONENTS Core Quick REQUIRED)
 include_directories(
     "submodules/crow/include"
@@ -36,6 +36,7 @@ add_executable(${SERVER_EXEC_NAME}
 
 add_executable(${CLIENT_EXEC_NAME}
     "client/QmlEnvVar.cpp"
+    "client/QmlEnvVar.h"
     "client/main.cpp"
     "client/qml.qrc"
 )
@@ -45,7 +46,7 @@ if(THREADS_HAVE_PTHREAD_ARG)
     set_property(TARGET ${SERVER_EXEC_NAME} APPEND PROPERTY INTERFACE_COMPILE_OPTIONS "-pthread")
 endif()
 set_target_properties(${SERVER_EXEC_NAME} PROPERTIES LINK_FLAGS "-municode" COMPILE_FLAGS "-DUNICODE")
-target_link_libraries(${SERVER_EXEC_NAME} ${Boost_LIBRARIES} wsock32 ws2_32 iphlpapi wtsapi32)
+target_link_libraries(${SERVER_EXEC_NAME} ${Boost_LIBRARIES} z wsock32 ws2_32 iphlpapi wtsapi32)
 
 set_target_properties(${CLIENT_EXEC_NAME} PROPERTIES
     AUTOMOC ON

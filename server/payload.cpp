@@ -1,3 +1,6 @@
+#define WINVER _WIN32_WINNT_VISTA
+#define _WIN32_WINNT _WIN32_WINNT_VISTA
+
 #include <winsock2.h>
 #include <windows.h>
 #include <wtsapi32.h>
@@ -8,10 +11,10 @@
 #include <boost/asio/ip/address.hpp>
 
 #if !defined(HKEY_CURRENT_USER_LOCAL_SETTINGS)
-// Usually defined in the Windows SDKs for Vista+ but absent in MinGW
+// It is usually defined in the Windows SDKs for Vista+ but not in MinGW
 #define HKEY_CURRENT_USER_LOCAL_SETTINGS ((HKEY) (ULONG_PTR)((LONG)0x80000007))
 #endif
-#include <WinReg/WinReg.hpp>
+#include <WinReg.hpp>
 
 #include "payload.hpp"
 
