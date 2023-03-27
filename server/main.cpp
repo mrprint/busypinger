@@ -55,7 +55,7 @@ void Service::onStart(DWORD argc, WCHAR* argv[])
             json::wvalue resp;
             try{
                 vector<json::wvalue> vresp;
-                for (auto& i: users_get())
+                for (auto& i: ips_get())
                 {
                     json::wvalue val;
                     val["ip"] = i;
@@ -69,7 +69,31 @@ void Service::onStart(DWORD argc, WCHAR* argv[])
             }
             catch(...)
             {
-                cerr << "Exception during \"users_get\" execution" << endl;
+                cerr << "Exception during \"ips_get\" execution" << endl;
+                return crow::response("");
+            }
+            return crow::response(resp);
+        });
+
+        CROW_ROUTE(app, "/names")([](){
+            json::wvalue resp;
+            try{
+                vector<json::wvalue> vresp;
+                for (auto& i: names_get())
+                {
+                    json::wvalue val;
+                    val["name"] = i;
+                    vresp.emplace_back(std::move(val));
+                }
+                resp = std::move(vresp);
+            }
+            catch(system_error& ex)
+            {
+                return crow::response(ex.what());
+            }
+            catch(...)
+            {
+                cerr << "Exception during \"names_get\" execution" << endl;
                 return crow::response("");
             }
             return crow::response(resp);

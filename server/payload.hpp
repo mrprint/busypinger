@@ -17,7 +17,7 @@ public:
 using VectorStr = std::vector<std::string>;
 
 bool isbusy();
-VectorStr ip_get();
-VectorStr users_get();
+VectorStr ips_get();
+VectorStr names_get();
 
 #endif // PAYLOAD_HPP
